@@ -1,4 +1,6 @@
 const http = require('http')
+const socketIO = require('socket.io')
+const P2P = require('socket.io-p2p-server').Server
 const { Nuxt, Builder } = require('nuxt')
 const app = require('./app')
 
@@ -21,6 +23,10 @@ async function start() {
 
   // Create server
   const server = http.createServer(app)
+  const io = socketIO(server)
+  io.use(P2P)
+
+  require('./sockets')(io)
 
   // Listen the server
   server.listen(app.get('port'))
