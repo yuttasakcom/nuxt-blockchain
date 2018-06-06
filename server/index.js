@@ -1,11 +1,6 @@
-
-const express = require('express')
+const http = require('http')
 const { Nuxt, Builder } = require('nuxt')
-const app = express()
-const host = process.env.HOST || '127.0.0.1'
-const port = process.env.PORT || 3000
-
-app.set('port', port)
+const app = require('./app')
 
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')
@@ -24,8 +19,11 @@ async function start() {
   // Give nuxt middleware to express
   app.use(nuxt.render)
 
+  // Create server
+  const server = http.createServer(app)
+
   // Listen the server
-  app.listen(port, host)
-  console.log('Server listening on http://' + host + ':' + port) // eslint-disable-line no-console
+  server.listen(app.get('port'))
+  console.log(`Server running at port:${app.get('port')}`) // eslint-disable-line no-console
 }
 start()
