@@ -18,7 +18,7 @@ class Block {
   }
 
   static genesis() {
-    return new this('Genesis titme', '0000000000', 'random-1234', [])
+    return new this('Genesis time', '0000000000', 'random-1234', [])
   }
 
   static mineBlock(lastBlock, data) {
@@ -30,6 +30,11 @@ class Block {
 
   static hash(timestamp, lastHash, data) {
     return SHA256(`${timestamp}${lastHash}${data}`).toString()
+  }
+
+  static blockHash(block) {
+    const { timestamp, lastHash, data } = block
+    return Block.hash(timestamp, lastHash, data)
   }
 }
 
